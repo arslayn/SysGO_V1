@@ -1,0 +1,196 @@
+/* SystemInfoApp.css */
+.system-info-app-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .app-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .app-header h1 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .app-header p {
+    color: #666;
+  }
+  
+  .system-info-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  .fetch-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .fetch-button:hover {
+    background-color: #3e8e41;
+  }
+  
+  .fetch-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  .specs-summary {
+    margin-bottom: 30px;
+  }
+  
+  .specs-grid, .requirements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+  }
+  
+  .spec-item, .req-item {
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .spec-item h3, .req-item h3 {
+    margin-top: 0;
+    color: #444;
+    font-size: 16px;
+  }
+  
+  .comparison-section {
+    margin-top: 40px;
+  }
+  
+  .app-input-section {
+    margin-top: 20px;
+  }
+  
+  .input-group {
+    display: flex;
+    margin-bottom: 15px;
+  }
+  
+  .app-input {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+  }
+  
+  .check-button {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .check-button:hover {
+    background-color: #0b7dda;
+  }
+  
+  .check-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  .error-message {
+    color: #f44336;
+    font-size: 14px;
+  }
+  
+  .info-message {
+    color: #2196F3;
+    font-size: 14px;
+  }
+  
+  .requirements-display {
+    margin-top: 30px;
+  }
+  
+  .compatibility-results {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .compatible {
+    background-color: #ebf7eb;
+    border: 1px solid #c8e6c9;
+  }
+  
+  .incompatible {
+    background-color: #ffebee;
+    border: 1px solid #ffcdd2;
+  }
+  
+  .overall-result {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .overall-result h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .detailed-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+  }
+  
+  .result-item {
+    padding: 15px;
+    border-radius: 8px;
+  }
+  
+  .result-item.meets {
+    background-color: #e8f5e9;
+  }
+  
+  .result-item.fails {
+    background-color: #ffebee;
+  }
+  
+  .app-footer {
+    margin-top: 40px;
+    text-align: center;
+    color: #777;
+    font-size: 14px;
+  }
+  
+  @media (max-width: 768px) {
+    .specs-grid, .requirements-grid, .detailed-results {
+      grid-template-columns: 1fr;
+    }
+    
+    .input-group {
+      flex-direction: column;
+    }
+    
+    .app-input, .check-button {
+      width: 100%;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+  }
