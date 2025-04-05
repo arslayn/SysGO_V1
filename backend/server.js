@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const si = require('systeminformation');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+// const { GoogleGenerativeAI } = require('@google/generative-ai');
 require('dotenv').config();
 
 const app = express();
@@ -11,8 +11,8 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Configure Gemini API
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || 'AIzaSyCKmGqdXMeU98gH4KlwPWplrsrH7p6147Y');
+// Replace Gemini API call with OpenRouter AI API call
+const fetch = require('node-fetch');
 
 // Cache for system information (refreshed every 5 minutes)
 let systemInfoCache = null;
@@ -101,7 +101,7 @@ app.post('/api/app-requirements', async (req, res) => {
       return res.json({ requirements: cachedData.requirements });
     }
     
-    // Create a prompt for Gemini to get both minimum and recommended system requirements
+    // Create a prompt for OpenRouter AI to get both minimum and recommended system requirements
     const prompt = `
           Provide the minimum and recommended system requirements for ${applicationName} in the following JSON format:
           {
@@ -122,16 +122,28 @@ app.post('/api/app-requirements', async (req, res) => {
           Provide only the JSON output without any additional text or markdown formatting.
     `;
     
-    // Call Gemini API
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const responseText = response.text();
+    // Call OpenRouter AI API
+    const response = await fetch(
+      'https://openrouter.ai/api/v1/chat/completions',
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'deepseek/deepseek-r1:free',
+          messages: [{ role: 'user', content: prompt }],
+        }),
+      },
+    );
+    const data = await response.json();
+    const responseText = data.choices?.[0]?.message?.content || 'No response received.';
     
     // Parse the response
     let requirements;
     try {
-      // Handle case where Gemini might wrap the JSON in code blocks or add text
+      // Handle case where OpenRouter AI might wrap the JSON in code blocks or add text
       const jsonMatch = responseText.match(/\{[\s\S]*\}/);
       const jsonString = jsonMatch ? jsonMatch[0] : responseText;
       
@@ -149,7 +161,7 @@ app.post('/api/app-requirements', async (req, res) => {
         throw new Error("Missing required fields in response");
       }
     } catch (parseError) {
-      console.error("Error parsing Gemini response:", parseError);
+      console.error("Error parsing OpenRouter AI response:", parseError);
       console.error("Raw response:", responseText);
       
       // Fallback with default requirements if parsing fails
