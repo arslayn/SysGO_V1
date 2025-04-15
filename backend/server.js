@@ -39,7 +39,7 @@ app.get('/api/system-info', async (req, res) => {
     // Get memory information
     const memData = await si.mem();
     const memory = {
-      total: formatBytes(memData.total),
+      total: `${Math.ceil(memData.total / (1024 * 1024 * 1024))} GB`,
       free: formatBytes(memData.free),
       used: formatBytes(memData.used)
     };
@@ -243,9 +243,9 @@ app.post('/api/compatibility-check', async (req, res) => {
       const diskLayout = await si.diskLayout();
       
       cpuInfo = `${cpu.brand} ${cpu.manufacturer} ${cpu.cores} cores at ${cpu.speed} GHz`;
-      memInfo = `${(memData.total / (1024 * 1024 * 1024)).toFixed(2)} GB`;
-      gpuInfo = gpuData.controllers.map(c => c.model).join(', ');
-      storageInfo = `${(diskLayout.reduce((total, disk) => total + disk.size, 0) / (1024 * 1024 * 1024)).toFixed(2)} GB`;
+      memInfo = `${Math.ceil(memData.total / (1024 * 1024 * 1024))} GB Total`;
+      gpuInfo = gpuData.controllers.map(c => `${c.model} with ${(c.vram || 0).toFixed(2)} GB VRAM`).join(', ');
+      storageInfo = `${(diskLayout.reduce((total, disk) => total + disk.size, 0) / (1024 * 1024 * 1024)).toFixed(2)} GB Total`;
     }
     
     // Parse memory values (improved regex to better handle various formats)
